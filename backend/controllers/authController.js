@@ -39,13 +39,13 @@ exports.logIn = asyncHandler(async (req, res) => {
   // Check if user exists
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(400).json({ message: "User not found" });
   }
 
   // Verify password
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
-    return res.status(401).json({ message: "Invalid password" });
+    return res.status(400).json({ message: "Invalid password" });
   }
 
   // Generate JWT token
